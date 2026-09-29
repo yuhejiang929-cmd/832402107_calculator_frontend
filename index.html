@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f5f1" />
+    <meta
+      name="description"
+      content="Forma — a thoughtful calculator with securely calculated results and persistent history."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Forma · A little clarity</title>
+  </head>
+  <body>
+    <div class="workspace">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Forma home"
+          ><span class="brand-mark">f.</span> forma<span class="brand-tag">CALCULATOR</span></a
+        >
+        <button
+          id="theme-toggle"
+          class="icon-button"
+          aria-label="Switch theme"
+          title="Switch theme"
+        >
+          ◐
+        </button>
+      </header>
+      <main>
+        <section class="intro">
+          <div class="eyebrow">A LITTLE CLARITY, ONE CALCULATION AT A TIME</div>
+          <h1>Make room for <em>the answer.</em></h1>
+          <p>From a quick sum to a bigger thought. Work it out here.</p>
+        </section>
+        <div class="layout">
+          <section class="calculator card" aria-labelledby="calculator-title">
+            <div class="panel-heading">
+              <h2 id="calculator-title"><span class="small-symbol">⌘</span> Calculator</h2>
+              <span class="pill">STANDARD</span>
+            </div>
+            <div class="display">
+              <label class="field-label" for="expression">EXPRESSION</label>
+              <input
+                id="expression"
+                type="text"
+                inputmode="decimal"
+                autocomplete="off"
+                spellcheck="false"
+                maxlength="200"
+                placeholder="Type an expression"
+                aria-describedby="input-hint"
+              />
+              <div class="result-line">
+                <span class="equals-label">=</span><output id="result" aria-live="polite">0</output>
+              </div>
+              <div class="display-footer">
+                <span id="result-note">Your next idea starts here</span
+                ><button id="copy-result" disabled class="text-button">Copy result ↗</button>
+              </div>
+            </div>
+            <div id="calculation-message" class="message" role="status" aria-live="polite"></div>
+            <div class="keypad" aria-label="Calculator keypad">
+              <button data-action="clear" class="key action">AC</button
+              ><button data-value="(" class="key action">(</button
+              ><button data-value=")" class="key action">)</button
+              ><button data-action="backspace" class="key action" aria-label="Backspace">⌫</button>
+              <button data-value="7" class="key">7</button
+              ><button data-value="8" class="key">8</button
+              ><button data-value="9" class="key">9</button
+              ><button data-value="/" class="key operator" aria-label="Divide">÷</button>
+              <button data-value="4" class="key">4</button
+              ><button data-value="5" class="key">5</button
+              ><button data-value="6" class="key">6</button
+              ><button data-value="*" class="key operator" aria-label="Multiply">×</button>
+              <button data-value="1" class="key">1</button
+              ><button data-value="2" class="key">2</button
+              ><button data-value="3" class="key">3</button
+              ><button data-value="-" class="key operator" aria-label="Subtract">−</button>
+              <button data-action="sign" class="key" aria-label="Toggle sign">+/−</button
+              ><button data-value="0" class="key">0</button
+              ><button data-value="." class="key">.</button
+              ><button data-value="+" class="key operator" aria-label="Add">+</button>
+              <button id="calculate" data-action="calculate" class="key equals">
+                <span>Calculate</span><span>=</span>
+              </button>
+            </div>
+            <p id="input-hint" class="keyboard-hint">
+              <kbd>enter</kbd> calculate <span>·</span> <kbd>esc</kbd> clear <span>·</span> keyboard
+              friendly
+            </p>
+          </section>
+          <section class="history card" aria-labelledby="history-title">
+            <div class="panel-heading">
+              <h2 id="history-title">
+                <span class="small-symbol">↺</span> History
+                <span id="history-count" class="count">0</span>
+              </h2>
+              <button id="clear-history" class="text-button" disabled>Clear all</button>
+            </div>
+            <label class="search-box"
+              ><span aria-hidden="true">⌕</span
+              ><input
+                id="history-search"
+                type="search"
+                placeholder="Search history…"
+                aria-label="Search history"
+                maxlength="200"
+            /></label>
+            <div class="history-subheading">
+              <span>YOUR RECENT CALCULATIONS</span
+              ><button id="refresh-history" class="text-button" aria-label="Refresh history">
+                ↻ Refresh
+              </button>
+            </div>
+            <p id="history-message" class="message" role="status" aria-live="polite"></p>
+            <div id="history-list" class="history-list" aria-live="polite"></div>
+            <nav class="pagination" aria-label="History pages">
+              <button id="previous-page" class="text-button" disabled>← Previous</button
+              ><span id="page-info">Page 1 / 1</span
+              ><button id="next-page" class="text-button" disabled>Next →</button>
+            </nav>
+            <div class="history-footnote">
+              <span class="status-dot"></span> Saved to the database. Ready when you return.
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <span>THINK IT. TYPE IT. SOLVE IT.</span
+        ><span>Calculated on the server <span class="footer-dot">•</span> Stored with care</span>
+      </footer>
+    </div>
+    <dialog id="clear-dialog">
+      <form method="dialog">
+        <span class="dialog-icon">↺</span>
+        <h2>Start with a clean slate?</h2>
+        <p>This permanently removes every calculation from the shared history database.</p>
+        <div class="dialog-actions">
+          <button value="cancel" class="secondary-button">Keep history</button
+          ><button id="confirm-clear" value="confirm" class="primary-button">
+            Clear all history
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

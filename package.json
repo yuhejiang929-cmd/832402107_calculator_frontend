@@ -1,0 +1,22 @@
+{
+  "name": "student-id-calculator-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test tests/*.test.js",
+    "format": "prettier --write src tests index.html *.json",
+    "format:check": "prettier --check src tests index.html *.json"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.0",
+    "prettier": "^3.9.9",
+    "vite": "^7.3.1"
+  }
+}
