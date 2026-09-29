@@ -1,6 +1,6 @@
 # Forma Calculator · Frontend
 
-A responsive Vite + vanilla JavaScript calculator for **<REPLACE_WITH_MY_STUDENT_ID> · <REPLACE_WITH_MY_NAME>**.
+A responsive Vite + vanilla JavaScript calculator for **&lt;REPLACE_WITH_MY_STUDENT_ID&gt; · &lt;REPLACE_WITH_MY_NAME&gt;**.
 Repository: TODO_FRONTEND_REPOSITORY_URL
 
 ## Features
@@ -32,7 +32,7 @@ npm run build
 npm run preview
 ```
 
-`dist/` is the static deployment output. Set `VITE_API_BASE_URL` **before** building; rebuild after changing it. Serve over HTTPS and configure the exact frontend origin in the backend's `FRONTEND_ORIGINS`. To call the backend from the default preview port, include `http://localhost:4173` and/or `http://127.0.0.1:4173` in that setting.
+`dist/` is the static deployment output. Without an explicit API URL, production uses same-origin `/api` (requires a reverse proxy); only development defaults to localhost. Set `VITE_API_BASE_URL` **before** building; rebuild after changing it. Serve over HTTPS and configure the exact frontend origin in the backend's `FRONTEND_ORIGINS`. To call the backend from the default preview port, include `http://localhost:4173` and/or `http://127.0.0.1:4173` in that setting.
 
 ## Project structure
 

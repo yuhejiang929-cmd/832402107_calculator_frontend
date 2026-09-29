@@ -1,4 +1,5 @@
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '');
+const defaultBase = import.meta.env.DEV ? 'http://localhost:8000' : '';
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || defaultBase).replace(/\/$/, '');
 
 async function request(path, options = {}) {
   const controller = new AbortController();
