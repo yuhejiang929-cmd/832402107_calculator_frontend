@@ -1,7 +1,9 @@
-# Forma Calculator · Frontend
+# 832402107_calculator_frontend · Forma Calculator
 
-A responsive Vite + vanilla JavaScript calculator for **&lt;REPLACE_WITH_MY_STUDENT_ID&gt; · &lt;REPLACE_WITH_MY_NAME&gt;**.
-Repository: TODO_FRONTEND_REPOSITORY_URL
+A responsive Vite + vanilla JavaScript calculator for **832402107 · Yuhe Jiang**.
+FZU ID: 832402107 · Maynooth University Student ID (MUID): 24125342 · Name: Yuhe Jiang.
+
+Repository: Pending publication
 
 ## Features
 
@@ -69,7 +71,7 @@ Two unit tests pass and the production build passes. The complete assignment con
 
 ## Deployment
 
-Upload `dist/` to any static host (build `npm ci && npm run build`, publish `dist`). `netlify.toml` is an optional provider example. Set `VITE_API_BASE_URL` to the public HTTPS backend URL and redeploy. Current deployment: TODO_FRONTEND_DEPLOYMENT_URL.
+Upload `dist/` to any static host (build `npm ci && npm run build`, publish `dist`). `netlify.toml` is an optional provider example. Set `VITE_API_BASE_URL` to the public HTTPS backend URL and redeploy. Current deployment: Pending public deployment.
 
 ## Limitations
 
