@@ -1,21 +1,24 @@
-# 832402107_calculator_frontend · Forma Calculator
+# Forma Calculator · 832402107_calculator_frontend
 
-A responsive Vite + vanilla JavaScript calculator for **832402107 · Yuhe Jiang**.
-FZU ID: 832402107 · Maynooth University Student ID (MUID): 24125342 · Name: Yuhe Jiang.
+Yuhe Jiang · FZUID 832402107 · MUID 24125342
 
-Repository: Pending publication
+A responsive calculator built with Vite and vanilla JavaScript. Expressions are calculated by the separate FastAPI backend; history is stored in the backend database.
 
-## Features
+## Public links
 
-Four-operation expression entry, parentheses, unary signs and decimals; server-calculated results; searchable paginated database history; delete and confirmed clear-all; keyboard shortcuts; persistent light/dark preference; copy result; history reuse; loading and accessible inline errors.
+- [Live calculator](https://832402107-calculator-frontend-67ak.vercel.app)
+- [Frontend repository](https://github.com/yuhejiang929-cmd/832402107_calculator_frontend) · [Backend repository](https://github.com/yuhejiang929-cmd/832402107_calculator_backend)
+- [Backend API](https://832402107-calculator-backend.vercel.app) · [Swagger](https://832402107-calculator-backend.vercel.app/docs) · [Health](https://832402107-calculator-backend.vercel.app/api/health)
 
-## Stack and architecture
+## Features and architecture
 
-Vite, JavaScript ES modules, semantic HTML and CSS variables. Native `fetch` is the only calculation path. The browser edits text and displays the API result; it never evaluates arithmetic. The FastAPI implementation belongs in a separate repository.
+Basic arithmetic, precedence, nested parentheses, decimals and unary signs; expression input and keypad; readable errors; persistent history with search, pagination, single deletion and confirmed clear-all. Additional features include keyboard input, copy result, expression reuse, and persistent light/dark preference.
+
+Browser → **Vercel Vite frontend** → HTTPS JSON → **Vercel FastAPI backend** → SQLAlchemy/psycopg → **Neon PostgreSQL**. Frontend code only edits strings and displays the returned result. Blocking the calculation API produces the backend-unavailable message and `—`, never a locally computed answer. Only the theme preference uses localStorage.
 
 ## Local setup
 
-Install Node.js 22.12+ (tested: 24.19.0) and npm. Start the backend separately on port 8000.
+Node.js 22.12+ and npm are required; tested with Node 24.19.0. Start the backend on port 8000, then run from this repository:
 
 ```bash
 npm ci
@@ -23,9 +26,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Open http://localhost:5173. `.env` uses `VITE_API_BASE_URL=http://localhost:8000`. This value is public build-time configuration, never a place for credentials.
-
-## Build, tests, formatting
+Open http://localhost:5173. For local development set `VITE_API_BASE_URL=http://localhost:8000`. This is a public build-time API address, never a credential. Production uses `VITE_API_BASE_URL=https://832402107-calculator-backend.vercel.app`. Changing it requires rebuilding/redeploying.
 
 ```bash
 npm test
@@ -34,61 +35,38 @@ npm run build
 npm run preview
 ```
 
-`dist/` is the static deployment output. Without an explicit API URL, production uses same-origin `/api` (requires a reverse proxy); only development defaults to localhost. Set `VITE_API_BASE_URL` **before** building; rebuild after changing it. Serve over HTTPS and configure the exact frontend origin in the backend's `FRONTEND_ORIGINS`. To call the backend from the default preview port, include `http://localhost:4173` and/or `http://127.0.0.1:4173` in that setting.
-
-## Project structure
-
-| Module | Responsibility |
-|---|---|
-| `src/main.js` | Compose modules |
-| `src/api.js` | JSON API requests, timeouts and readable errors |
-| `src/calculator.js` | Text editing, request state, server result display |
-| `src/expression.js` | Display operators and predictable sign text transformation |
-| `src/history.js` | Database-backed listing, search, pagination and deletion |
-| `src/keyboard.js` | Keyboard input without interfering with search or dialogs |
-| `src/theme.js` | Theme selection; the only use of localStorage |
-| `src/styles.css` | Responsive layout, CSS variables and focus styles |
-
-## Usage
-
-Type an expression or click buttons. Enter / `=` submits; Escape clears; Backspace edits. Click a history item to reuse its expression. For a plain number, `+/−` toggles its leading minus; for a compound expression it wraps the entire text in `-(...)`. It does not calculate or guess the current operand. Unary signs, parentheses and precedence are handled on the server. Expressions are limited to 200 characters.
-
-Repeated submissions are blocked while a request is running. If the text changes during a request, the old result is not displayed against the new expression. History data always comes from the API; refresh and browser reopen preserve it because the database persists.
-
-## Backend API
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/health` | Service/database health |
-| POST | `/api/calculate` | `{ "expression": "(1+2)*3" }` → result `"9"` |
-| GET | `/api/history?page=1&page_size=20&search=` | Newest-first history |
-| DELETE | `/api/history/{id}` | Delete actual record |
-| DELETE | `/api/history` | Clear shared history after confirmation |
-
-## Verification
-
-Two unit tests pass and the production build passes. The complete assignment contains `scripts/browser_acceptance.mjs`: real Chrome tests use isolated ports 8011/5175 and an isolated SQLite database, save 24 screenshots, and actually stop/restart servers. Run from the assignment root with `node scripts/browser_acceptance.mjs`; both repositories and an installed Chrome are required. See the accompanying submission evidence for the actual checks.
+Build output is `dist/`. A production build without an explicit API URL uses same-origin `/api`; only development defaults to localhost. Configure the backend's `FRONTEND_ORIGINS` for the exact browser origin. Preview uses port 4173 by default and needs its own allowed origin for local integration.
 
 ## Deployment
 
-Upload `dist/` to any static host (build `npm ci && npm run build`, publish `dist`). `netlify.toml` is an optional provider example. Set `VITE_API_BASE_URL` to the public HTTPS backend URL and redeploy. Current deployment: Pending public deployment.
+The production frontend is on Vercel: Vite preset, build `npm run build`, output `dist`, and the production API URL above. All public requests use HTTPS. `netlify.toml` remains an optional static-host configuration; it is not the deployed service configuration.
 
-## Limitations
+## Modules and usage
 
-This coursework uses one shared history database, without user accounts. Clear-all applies to everyone using that backend. Clipboard access requires a secure browser context. No frontend arithmetic fallback exists when the backend is offline. Fonts use local system fallbacks so the calculator does not depend on external font services.
+| File | Responsibility |
+|---|---|
+| `src/api.js` | Fetch, JSON/204 handling, 12-second timeout and network errors |
+| `src/calculator.js` | Text editing, loading state, duplicate prevention and stale-result protection |
+| `src/expression.js` | Display operators and sign text transformation |
+| `src/history.js` | API history, debounced search, pagination, deletion and clear confirmation |
+| `src/keyboard.js` | Keyboard events without interfering with other controls |
+| `src/theme.js` | Theme preference |
+| `src/styles.css` | Responsive layout, theme tokens and focus styles |
 
-Code conventions: [codestyle.md](codestyle.md).
+Enter or `=` submits; Escape clears; Backspace edits. `+/−` toggles a number's sign or wraps a compound expression in `-(...)`. Selecting a history row reuses its text. The backend interprets all operators. Input is limited to 200 characters.
+
+## Verification
+
+Final audit: **2 unit tests passed**, Vite build passed, and Prettier check passed. The complete submission includes `scripts/browser_acceptance.mjs`, which passed **32 checks** using an isolated database and ports 8011/5175. It checks actual process restarts, error states, blocked backend requests, clipboard, history and responsive behavior. The separate production audit and final screenshots are supplied in the submission materials.
 
 ## Screenshots
 
-![Desktop calculator](docs/desktop.png)
+![Production desktop](docs/desktop.png)
 
-![Mobile layout](docs/mobile.png)
+![Production mobile](docs/mobile.png)
 
-## Troubleshooting
+## Limits and troubleshooting
 
-- If calculation fails, visit the backend `/api/health` and check that the backend is running.
-- If the browser reports CORS, add its exact origin (including port) to `FRONTEND_ORIGINS` and restart the backend.
-- `VITE_API_BASE_URL` is read at build/start time; restart Vite or rebuild after editing it.
-- HTTPS pages require an HTTPS API. `localhost` in a deployed build refers to the visitor's machine.
-- Theme preference is optional; disabling localStorage does not disable the calculator.
+History is shared by all visitors; there are no accounts or per-user permissions. Clear-all affects the shared backend. Clipboard requires a secure browser context and browser permission. If requests fail, check the API health URL, exact CORS origin and build-time API URL. No frontend calculation fallback exists. System fonts avoid external font dependencies.
+
+Code conventions: [codestyle.md](codestyle.md).
